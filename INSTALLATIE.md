@@ -42,3 +42,13 @@ Cursistmetingen worden niet meer permanent opgeslagen. Elke nieuwe sessie start 
 ## Codebase refactor 04
 
 De UI JavaScript staat nu in `js/app.js` in plaats van inline in `index.html`. De werking en interface zijn niet inhoudelijk gewijzigd.
+
+
+## Codebase refactor 05
+
+De gedeelde DOM-elementen worden nu centraal opgehaald in `app.js`. De interactielogica gebruikt deze referenties in plaats van telkens opnieuw dezelfde elementen op te zoeken. De gebruikersinterface en functionaliteit zijn inhoudelijk gelijk gebleven.
+
+
+## Codebase refactor 06
+
+`app.js` is nu logisch opgebouwd in DOM-referenties, hulpfuncties, cursistregels, berekening, opslag, presentatiemodus en event-handlers. De resterende inline presentatiemodus is uit `index.html` verwijderd. De functionaliteit blijft gelijk.

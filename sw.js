@@ -1,4 +1,4 @@
-const CACHE_NAME = "onderwaternavigatie-v12-dom-refs";
+const CACHE_NAME = "onderwaternavigatie-v14-app-structure-fixed";
 const APP_SHELL = [
   'js/app.js',
   "./",
@@ -6,7 +6,6 @@ const APP_SHELL = [
   "./js/calculations.js",
   "./js/storage.js",
   "./manifest.webmanifest",
-  "./icons/icon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
 ];

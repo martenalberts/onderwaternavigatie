@@ -536,52 +536,6 @@
 
   <script src="js/app.js"></script>
 
-
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-    const resultName = document.getElementById('resultName');
-    const resultMetersMinute = document.getElementById('resultMetersMinute');
-    const resultMetersStroke = document.getElementById('resultMetersStroke');
-    const resultAvgTime = document.getElementById('resultAvgTime');
-    const resultAvgStrokes = document.getElementById('resultAvgStrokes');
-    const closeResult = document.getElementById('closeResult');
-
-    function showResult(tr) {
-      resultName.textContent = tr.querySelector('.name-input').value.trim() || 'Cursist';
-      resultAvgTime.textContent = (tr.querySelector('.avg-time').textContent || '0,0') + ' sec';
-      resultAvgStrokes.textContent = tr.querySelector('.avg-strokes').textContent || '0,0';
-      resultMetersMinute.textContent = tr.querySelector('.meters-minute').textContent || '0,0';
-      resultMetersStroke.textContent = tr.querySelector('.meters-stroke').textContent || '0,00';
-
-      resultScreen.classList.add('visible');
-      document.body.style.overflow = 'hidden';
-      closeResult.focus();
-    }
-
-    function hideResult() {
-      resultScreen.classList.remove('visible');
-      document.body.style.overflow = '';
-    }
-
-    document.addEventListener('click', event => {
-      const button = event.target.closest('.show-result');
-      if (button) showResult(button.closest('tr'));
-    });
-
-    closeResult.addEventListener('click', hideResult);
-
-    resultScreen.addEventListener('click', event => {
-      if (event.target === resultScreen) hideResult();
-    });
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && resultScreen.classList.contains('visible')) {
-        hideResult();
-      }
-    });
-    });
-  </script>
-
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
