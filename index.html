@@ -672,7 +672,7 @@
 
 
   <script>
-    const resultScreen = document.getElementById('resultScreen');
+    window.addEventListener('DOMContentLoaded', () => {
     const resultName = document.getElementById('resultName');
     const resultMetersMinute = document.getElementById('resultMetersMinute');
     const resultMetersStroke = document.getElementById('resultMetersStroke');
@@ -712,6 +712,7 @@
       if (event.key === 'Escape' && resultScreen.classList.contains('visible')) {
         hideResult();
       }
+    });
     });
   </script>
 
