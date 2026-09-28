@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#087ea4">
+  <meta name="description" content="Onderwaternavigatie afstandsmeting voor duikopleidingen. Bereken meter per minuut en meter per vinslag.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Onderwaternavigatie">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <title>Onderwaternavigatie | Afstandsmeting</title>
+  <style>
+    :root {
+      --bg: #f4f7f9;
+      --card: #ffffff;
+      --text: #17324d;
+      --muted: #617486;
+      --accent: #087ea4;
+      --accent-dark: #05627f;
+      --line: #d7e0e7;
+      --result: #eaf7fb;
+      --danger: #b42318;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, #073b5c, #087ea4);
+      color: white;
+      padding: 24px 20px;
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+    }
+
+    .subtitle {
+      margin: 0;
+      opacity: .9;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 5px 20px rgba(20, 50, 70, .06);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .settings {
+      display: flex;
+      gap: 18px;
+      align-items: end;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 180px;
+    }
+
+    label {
+      font-weight: 650;
+      font-size: .9rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 11px;
+      border: 1px solid #b8c6d1;
+      border-radius: 8px;
+      font: inherit;
+      color: var(--text);
+      background: white;
+    }
+
+    input:focus {
+      outline: 3px solid rgba(8,126,164,.16);
+      border-color: var(--accent);
+    }
+
+    input[type="number"] {
+      text-align: right;
+    }
+
+    .distance-note {
+      color: var(--muted);
+      font-size: .88rem;
+      padding-bottom: 10px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 940px;
+    }
+
+    th, td {
+      padding: 11px 9px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f0f5f8;
+      text-align: left;
+      font-size: .82rem;
+      line-height: 1.25;
+      white-space: normal;
+    }
+
+    td input {
+      min-width: 78px;
+    }
+
+    td.name input {
+      min-width: 130px;
+      text-align: left;
+    }
+
+    .result {
+      font-weight: 750;
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .avg {
+      color: #304c62;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 15px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .primary:hover { background: var(--accent-dark); }
+
+    .secondary {
+      background: #e8eef2;
+      color: var(--text);
+    }
+
+    .secondary:hover { background: #dce5eb; }
+
+    .danger {
+      background: transparent;
+      color: var(--danger);
+      padding: 7px 8px;
+    }
+
+    .danger:hover { background: #fff0ee; }
+
+    .formula {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .formula strong { color: var(--text); }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 26px;
+    }
+
+    @media (max-width: 700px) {
+      main { margin-top: 14px; }
+      .card { padding: 14px; }
+      .settings { display: block; }
+      .field { margin-bottom: 12px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar { background: none; color: black; padding: 10px 0; }
+      main { margin: 0; max-width: none; padding: 0; }
+      .card { box-shadow: none; border: 1px solid #bbb; }
+      .actions, .no-print { display: none !important; }
+      table { min-width: 0; }
+      input { border: 0; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>Onderwaternavigatie, afstandsmeting</h1>
+      <p class="subtitle">Bepaal de zwemsnelheid en afstand per vinslag op basis van een vaste meetlijn.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="settings">
+        <div class="field">
+          <label for="distance">Lengte meetlijn (meter)</label>
+          <input id="distance" type="number" min="0.1" step="0.1" value="35">
+        </div>
+        <div class="distance-note">
+          De meetlijn is standaard 35 meter. Pas deze waarde alleen aan als je een andere meetafstand gebruikt.
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Naam</th>
+              <th>Tijd 1<br>(sec)</th>
+              <th>Tijd 2<br>(sec)</th>
+              <th>Gem. tijd<br>(sec)</th>
+              <th>Vinslagen 1<br>(aantal)</th>
+              <th>Vinslagen 2<br>(aantal)</th>
+              <th>Gem. vinslagen<br>(aantal)</th>
+              <th>Meter/min</th>
+              <th>Meter/vinslag</th>
+              <th class="no-print">Actie</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <div class="actions no-print">
+        <button class="primary" id="add">+ Cursist toevoegen</button>
+        <button class="secondary" id="print">Afdrukken</button>
+        <button class="secondary" id="clear">Alles wissen</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <p class="formula">
+        <strong>Berekening:</strong> gemiddelde tijd = (tijd 1 + tijd 2) / 2.
+        Meter/min = (meetafstand / gemiddelde tijd) × 60.
+        Gemiddelde vinslagen = (vinslagen 1 + vinslagen 2) / 2.
+        Meter/vinslag = meetafstand / gemiddelde vinslagen.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const rows = document.getElementById('rows');
+    const distanceInput = document.getElementById('distance');
+
+    function num(value) {
+      const n = parseFloat(String(value).replace(',', '.'));
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function format(value, decimals = 1) {
+      if (value === null || !Number.isFinite(value)) return '';
+      return value.toLocaleString('nl-NL', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function createRow(data = {}) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="name"><input class="name-input" type="text" placeholder="Naam" value="${escapeHtml(data.name || '')}"></td>
+        <td><input class="time1" type="number" min="0" step="0.1" inputmode="decimal" value="${data.time1 ?? ''}"></td>
+        <td><input class="time2" type="number" min="0" step="0.1" inputmode="decimal" value="${data.time2 ?? ''}"></td>
+        <td class="avg avg-time"></td>
+        <td><input class="stroke1" type="number" min="0" step="1" inputmode="numeric" value="${data.stroke1 ?? ''}"></td>
+        <td><input class="stroke2" type="number" min="0" step="1" inputmode="numeric" value="${data.stroke2 ?? ''}"></td>
+        <td class="avg avg-strokes"></td>
+        <td class="result meters-minute"></td>
+        <td class="result meters-stroke"></td>
+        <td class="no-print"><button class="danger delete" title="Cursist verwijderen">Verwijderen</button></td>
+      `;
+
+      rows.appendChild(tr);
+
+      tr.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', () => calculateRow(tr));
+      });
+
+      tr.querySelector('.delete').addEventListener('click', () => {
+        tr.remove();
+        save();
+      });
+
+      calculateRow(tr);
+      return tr;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function calculateRow(tr) {
+      const distance = num(distanceInput.value);
+      const t1 = num(tr.querySelector('.time1').value);
+      const t2 = num(tr.querySelector('.time2').value);
+      const s1 = num(tr.querySelector('.stroke1').value);
+      const s2 = num(tr.querySelector('.stroke2').value);
+
+      const avgTime = t1 !== null && t2 !== null ? (t1 + t2) / 2 : null;
+      const avgStrokes = s1 !== null && s2 !== null ? (s1 + s2) / 2 : null;
+
+      tr.querySelector('.avg-time').textContent = format(avgTime, 1);
+      tr.querySelector('.avg-strokes').textContent = format(avgStrokes, 1);
+
+      const metersMinute = distance !== null && avgTime > 0 ? distance / avgTime * 60 : null;
+      const metersStroke = distance !== null && avgStrokes > 0 ? distance / avgStrokes : null;
+
+      tr.querySelector('.meters-minute').textContent =
+        metersMinute === null ? '' : format(metersMinute, 1);
+      tr.querySelector('.meters-stroke').textContent =
+        metersStroke === null ? '' : format(metersStroke, 2);
+
+      save();
+    }
+
+    function recalculateAll() {
+      document.querySelectorAll('#rows tr').forEach(calculateRow);
+    }
+
+    function save() {
+      const data = [...document.querySelectorAll('#rows tr')].map(tr => ({
+        name: tr.querySelector('.name-input').value,
+        time1: tr.querySelector('.time1').value,
+        time2: tr.querySelector('.time2').value,
+        stroke1: tr.querySelector('.stroke1').value,
+        stroke2: tr.querySelector('.stroke2').value
+      }));
+      localStorage.setItem('duikafstand-data', JSON.stringify(data));
+      localStorage.setItem('duikafstand-distance', distanceInput.value);
+    }
+
+    function load() {
+      const savedDistance = localStorage.getItem('duikafstand-distance');
+      if (savedDistance) distanceInput.value = savedDistance;
+
+      const saved = localStorage.getItem('duikafstand-data');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (Array.isArray(data) && data.length) {
+            data.forEach(createRow);
+            return;
+          }
+        } catch (e) {}
+      }
+
+      createRow({name: 'Anton', time1: 88, time2: 87, stroke1: 21, stroke2: 22});
+      createRow({name: 'Onno', time1: 104, time2: 84, stroke1: 19, stroke2: 16});
+    }
+
+    distanceInput.addEventListener('input', recalculateAll);
+
+    document.getElementById('add').addEventListener('click', () => {
+      const tr = createRow();
+      tr.querySelector('.name-input').focus();
+    });
+
+    document.getElementById('print').addEventListener('click', () => {
+      window.print();
+    });
+
+    document.getElementById('clear').addEventListener('click', () => {
+      if (!confirm('Alle ingevoerde cursisten verwijderen?')) return;
+      rows.innerHTML = '';
+      localStorage.removeItem('duikafstand-data');
+      createRow();
+    });
+
+    load();
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      const button = document.createElement('button');
+      button.className = 'primary no-print';
+      button.textContent = 'App installeren';
+      button.style.position = 'fixed';
+      button.style.right = '16px';
+      button.style.bottom = '16px';
+      button.style.zIndex = '1000';
+      button.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        button.remove();
+      });
+      document.body.appendChild(button);
+    });
+  </script>
+
+</body>
+</html>
