@@ -27,3 +27,8 @@ Gebruik per cursist de knop `Resultaat tonen` om de resultaten groot en overzich
 
 De rekenlogica staat nu los van de gebruikersinterface in `js/calculations.js`.
 Deze stap verandert de werking van de app niet. Het maakt toekomstige wijzigingen en controles van de berekeningen veiliger.
+
+## Codebase refactor 02
+
+De opslaglogica staat nu los van de gebruikersinterface in `js/storage.js`.
+De bestaande opslag in `localStorage` blijft hetzelfde werken. Er is in deze stap bewust geen functionele wijziging gemaakt.

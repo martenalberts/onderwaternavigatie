@@ -1,8 +1,9 @@
-const CACHE_NAME = "onderwaternavigatie-v7-calculation-refactor";
+const CACHE_NAME = "onderwaternavigatie-v8-storage-refactor";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./js/calculations.js",
+  "./js/storage.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

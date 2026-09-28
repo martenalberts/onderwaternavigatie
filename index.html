@@ -532,6 +532,7 @@
   </main>
 
   <script src="js/calculations.js"></script>
+  <script src="js/storage.js"></script>
 
   <script>
     const rows = document.getElementById('rows');
@@ -624,23 +625,20 @@
         stroke1: tr.querySelector('.stroke1').value,
         stroke2: tr.querySelector('.stroke2').value
       }));
-      localStorage.setItem('duikafstand-data', JSON.stringify(data));
-      localStorage.setItem('duikafstand-distance', distanceInput.value);
+
+      saveSession(data, distanceInput.value);
     }
 
     function load() {
-      const savedDistance = localStorage.getItem('duikafstand-distance');
-      if (savedDistance) distanceInput.value = savedDistance;
+      const session = loadSession();
 
-      const saved = localStorage.getItem('duikafstand-data');
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          if (Array.isArray(data) && data.length) {
-            data.forEach(createRow);
-            return;
-          }
-        } catch (e) {}
+      if (session.distance) {
+        distanceInput.value = session.distance;
+      }
+
+      if (session.rows) {
+        session.rows.forEach(createRow);
+        return;
       }
 
       createRow({name: 'Anton', time1: 88, time2: 87, stroke1: 21, stroke2: 22});
@@ -661,7 +659,7 @@
     document.getElementById('clear').addEventListener('click', () => {
       if (!confirm('Alle ingevoerde cursisten verwijderen?')) return;
       rows.innerHTML = '';
-      localStorage.removeItem('duikafstand-data');
+      clearSavedRows();
       createRow();
     });
 
