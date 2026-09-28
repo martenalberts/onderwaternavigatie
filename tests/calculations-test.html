@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onderwaternavigatie berekeningstest</title>
+  <style>
+    body { font-family: sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+    .ok { padding: .75rem; border-radius: .4rem; margin: .4rem 0; }
+    .pass { background: #e8f5e9; }
+    .fail { background: #ffebee; }
+  </style>
+</head>
+<body>
+  <h1>Berekeningstests</h1>
+  <div id="results"></div>
+
+  <script src="../js/calculations.js"></script>
+  <script>
+    const tests = [
+      {
+        name: 'Anton',
+        args: [35, 85, 90, 21, 22],
+        expected: {
+          averageTime: 87.5,
+          averageStrokes: 21.5,
+          metersPerMinute: 24,
+          metersPerStroke: 35 / 21.5
+        }
+      },
+      {
+        name: 'Vaste tijd, variabele vinslagen',
+        args: [35, 60, 60, 20, 22],
+        expected: {
+          averageTime: 60,
+          averageStrokes: 21,
+          metersPerMinute: 35,
+          metersPerStroke: 35 / 21
+        }
+      },
+      {
+        name: 'Onvolledige meting',
+        args: [35, 60, null, 20, 22],
+        expected: {
+          averageTime: null,
+          averageStrokes: 21,
+          metersPerMinute: null,
+          metersPerStroke: 35 / 21
+        }
+      }
+    ];
+
+    const close = (a, b) =>
+      (a === null && b === null) ||
+      (typeof a === 'number' && typeof b === 'number' && Math.abs(a - b) < 0.000001);
+
+    const results = document.getElementById('results');
+    let passed = 0;
+
+    tests.forEach(test => {
+      const actual = calculateNavigation(...test.args);
+      const ok = Object.keys(test.expected).every(
+        key => close(actual[key], test.expected[key])
+      );
+
+      const item = document.createElement('div');
+      item.className = 'ok ' + (ok ? 'pass' : 'fail');
+      item.textContent = (ok ? '✓ ' : '✗ ') + test.name;
+      results.appendChild(item);
+
+      if (ok) passed++;
+    });
+
+    const summary = document.createElement('p');
+    summary.textContent = `${passed} van ${tests.length} tests geslaagd.`;
+    results.appendChild(summary);
+
+    if (passed !== tests.length) {
+      document.title = 'TESTS GEFAALD';
+    }
+  </script>
+</body>
+</html>
