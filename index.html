@@ -531,6 +531,33 @@
     </section>
   </main>
 
+  <div class="result-screen" id="resultScreen" role="dialog" aria-modal="true" aria-labelledby="resultName">
+    <div class="result-card">
+      <h2 class="result-name" id="resultName">Cursist</h2>
+      <p class="result-subtitle">Resultaat onderwaternavigatie</p>
+
+      <div class="result-metrics">
+        <div class="metric">
+          <span class="metric-label">Snelheid</span>
+          <span class="metric-value" id="resultMetersMinute">0,0</span>
+          <span class="metric-label">meter/min</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Afstand per vinslag</span>
+          <span class="metric-value" id="resultMetersStroke">0,00</span>
+          <span class="metric-label">meter/vinslag</span>
+        </div>
+      </div>
+
+      <div class="result-details">
+        <div class="detail">Gem. tijd: <strong id="resultAvgTime">0,0 sec</strong></div>
+        <div class="detail">Gem. vinslagen: <strong id="resultAvgStrokes">0,0</strong></div>
+      </div>
+
+      <button class="primary result-close" id="closeResult" type="button">Terug naar invoer</button>
+    </div>
+  </div>
+
   <script>
     const rows = document.getElementById('rows');
     const distanceInput = document.getElementById('distance');
@@ -672,7 +699,7 @@
 
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
+    const resultScreen = document.getElementById('resultScreen');
     const resultName = document.getElementById('resultName');
     const resultMetersMinute = document.getElementById('resultMetersMinute');
     const resultMetersStroke = document.getElementById('resultMetersStroke');
@@ -713,7 +740,6 @@
         hideResult();
       }
     });
-    });
   </script>
 
   <script>
@@ -745,33 +771,6 @@
     });
   </script>
 
-
-  <div class="result-screen" id="resultScreen" role="dialog" aria-modal="true" aria-labelledby="resultName">
-    <div class="result-card">
-      <h2 class="result-name" id="resultName">Cursist</h2>
-      <p class="result-subtitle">Resultaat onderwaternavigatie</p>
-
-      <div class="result-metrics">
-        <div class="metric">
-          <span class="metric-label">Snelheid</span>
-          <span class="metric-value" id="resultMetersMinute">0,0</span>
-          <span class="metric-label">meter/min</span>
-        </div>
-        <div class="metric">
-          <span class="metric-label">Afstand per vinslag</span>
-          <span class="metric-value" id="resultMetersStroke">0,00</span>
-          <span class="metric-label">meter/vinslag</span>
-        </div>
-      </div>
-
-      <div class="result-details">
-        <div class="detail">Gem. tijd: <strong id="resultAvgTime">0,0 sec</strong></div>
-        <div class="detail">Gem. vinslagen: <strong id="resultAvgStrokes">0,0</strong></div>
-      </div>
-
-      <button class="primary result-close" id="closeResult" type="button">Terug naar invoer</button>
-    </div>
-  </div>
 
 </body>
 </html>
