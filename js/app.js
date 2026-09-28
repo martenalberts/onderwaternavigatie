@@ -1,5 +1,15 @@
-const rows = document.getElementById('rows');
-    const distanceInput = document.getElementById('distance');
+
+  const elements = {
+    rows: document.getElementById('rows'),
+    distanceInput: document.getElementById('distance'),
+    addRowButton: document.getElementById('addRow'),
+    clearButton: document.getElementById('clearAll')
+  };
+
+  const { rows, distanceInput, addRowButton, clearButton } = elements;
+
+const rows = rows;
+    const distanceInput = distanceInput;
 
     function num(value) {
       const n = parseFloat(String(value).replace(',', '.'));
