@@ -32,3 +32,8 @@ Deze stap verandert de werking van de app niet. Het maakt toekomstige wijziginge
 
 De opslaglogica staat nu los van de gebruikersinterface in `js/storage.js`.
 De bestaande opslag in `localStorage` blijft hetzelfde werken. Er is in deze stap bewust geen functionele wijziging gemaakt.
+
+
+## Codebase refactor 03
+
+Cursistmetingen worden niet meer permanent opgeslagen. Elke nieuwe sessie start met een lege cursist. Alleen de meetafstand wordt als configuratie bewaard.

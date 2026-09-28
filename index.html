@@ -618,29 +618,17 @@
     }
 
     function save() {
-      const data = [...document.querySelectorAll('#rows tr')].map(tr => ({
-        name: tr.querySelector('.name-input').value,
-        time1: tr.querySelector('.time1').value,
-        time2: tr.querySelector('.time2').value,
-        stroke1: tr.querySelector('.stroke1').value,
-        stroke2: tr.querySelector('.stroke2').value
-      }));
-
-      saveSession(data, distanceInput.value);
+      saveConfiguration(distanceInput.value);
     }
 
     function load() {
-      const session = loadSession();
+      const configuration = loadConfiguration();
 
-      if (session.distance) {
-        distanceInput.value = session.distance;
+      if (configuration.distance) {
+        distanceInput.value = configuration.distance;
       }
 
-      if (session.rows) {
-        session.rows.forEach(createRow);
-        return;
-      }
-
+      // Elke nieuwe sessie start met één lege cursist.
       createRow();
     }
 
@@ -658,7 +646,7 @@
     document.getElementById('clear').addEventListener('click', () => {
       if (!confirm('Alle ingevoerde cursisten verwijderen?')) return;
       rows.innerHTML = '';
-      clearSavedRows();
+      rows.innerHTML = '';
       createRow();
     });
 
