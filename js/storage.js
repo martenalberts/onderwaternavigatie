@@ -3,6 +3,8 @@
  * No DOM code belongs in this file.
  */
 
+const STORAGE_MIGRATION_KEY = 'duikafstand-storage-v2';
+
 const STORAGE_KEYS = {
   rows: 'duikafstand-data',
   distance: 'duikafstand-distance'
@@ -14,6 +16,13 @@ function saveSession(rows, distance) {
 }
 
 function loadSession() {
+  // Remove the old demo dataset once. This prevents Anton and Onno from
+  // reappearing after the first deployment of the refactored app.
+  if (!localStorage.getItem(STORAGE_MIGRATION_KEY)) {
+    localStorage.removeItem(STORAGE_KEYS.rows);
+    localStorage.setItem(STORAGE_MIGRATION_KEY, '1');
+  }
+
   const savedDistance = localStorage.getItem(STORAGE_KEYS.distance);
   const savedRows = localStorage.getItem(STORAGE_KEYS.rows);
 

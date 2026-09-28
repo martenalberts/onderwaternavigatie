@@ -1,4 +1,4 @@
-const CACHE_NAME = "onderwaternavigatie-v8-storage-refactor";
+const CACHE_NAME = "onderwaternavigatie-v9-no-demo-data";
 const APP_SHELL = [
   "./",
   "./index.html",
