@@ -1,4 +1,4 @@
-const CACHE_NAME = "onderwaternavigatie-v3-professional-icon";
+const CACHE_NAME = "onderwaternavigatie-v4-presentation-mode";
 const APP_SHELL = [
   "./",
   "./index.html",

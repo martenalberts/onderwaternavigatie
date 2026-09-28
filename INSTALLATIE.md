@@ -17,3 +17,8 @@ Open de app eerst online. De app gebruikt daarna een lokale cache voor offline g
 
 ## Responsive weergave
 De app is responsief gemaakt voor telefoons en tablets. In portrait op een telefoon worden cursisten als overzichtelijke kaarten weergegeven, zodat horizontaal scrollen niet nodig is. In landscape blijft de compacte tabelweergave beschikbaar. De app ondersteunt portrait en landscape en houdt rekening met veilige schermranden op apparaten met een notch.
+
+
+## Presentatiemodus
+
+Gebruik per cursist de knop `Resultaat tonen` om de resultaten groot en overzichtelijk aan de cursist te presenteren. De modus toont snelheid in meter/min, afstand per vinslag, gemiddelde tijd en gemiddelde vinslagen. Met `Terug naar invoer` keer je terug naar het invoerscherm.
