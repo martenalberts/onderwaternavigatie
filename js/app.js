@@ -30,8 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
   } = elements;
 
   function num(value) {
-    const n = parseFloat(String(value).replace(',', '.'));
-    return Number.isFinite(n) ? n : null;
+    const normalized = String(value ?? '').trim().replace(',', '.');
+    if (normalized === '') return null;
+
+    const n = Number(normalized);
+    return Number.isFinite(n) && n >= 0 ? n : null;
   }
 
   function format(value, decimals = 1) {
@@ -105,8 +108,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const result = calculateNavigation(distance, t1, t2, s1, s2);
 
-    tr.querySelector('.avg-time').textContent = format(result.averageTime, 1);
-    tr.querySelector('.avg-strokes').textContent = format(result.averageStrokes, 1);
+    tr.classList.toggle(
+      'incomplete',
+      [t1, t2, s1, s2].some(value => value === null)
+    );
+
+    tr.querySelector('.avg-time').textContent =
+      result.averageTime === null ? '' : format(result.averageTime, 1);
+    tr.querySelector('.avg-strokes').textContent =
+      result.averageStrokes === null ? '' : format(result.averageStrokes, 1);
     tr.querySelector('.meters-minute').textContent =
       result.metersPerMinute === null ? '' : format(result.metersPerMinute, 1);
     tr.querySelector('.meters-stroke').textContent =
@@ -134,6 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showResult(tr) {
+    const inputs = [
+      tr.querySelector('.time1').value,
+      tr.querySelector('.time2').value,
+      tr.querySelector('.stroke1').value,
+      tr.querySelector('.stroke2').value
+    ];
+
+    if (inputs.some(value => num(value) === null)) {
+      alert('Vul eerst tijd 1, tijd 2, vinslagen 1 en vinslagen 2 in.');
+      return;
+    }
+
     resultName.textContent =
       tr.querySelector('.name-input').value.trim() || 'Cursist';
     resultAvgTime.textContent =

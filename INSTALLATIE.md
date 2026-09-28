@@ -52,3 +52,14 @@ De gedeelde DOM-elementen worden nu centraal opgehaald in `app.js`. De interacti
 ## Codebase refactor 06
 
 `app.js` is nu logisch opgebouwd in DOM-referenties, hulpfuncties, cursistregels, berekening, opslag, presentatiemodus en event-handlers. De resterende inline presentatiemodus is uit `index.html` verwijderd. De functionaliteit blijft gelijk.
+
+
+## Codebase refactor 07
+
+Er is een eenvoudige, dependency-vrije testpagina toegevoegd in `tests/calculations-test.html`. Deze test de belangrijkste rekenregels zonder invloed op de productie-app.
+
+
+## Stap 8 en definitieve afronding
+
+Invoer accepteert Nederlandse decimalen met een komma. Negatieve waarden worden niet als geldige meting verwerkt. Onvolledige metingen worden visueel gemarkeerd en kunnen niet via 'Resultaat tonen' worden gepresenteerd. De bestaande berekeningstests blijven onderdeel van de codebase.
+Dit is de definitieve codebaseversie voor het huidige doel van de app.
