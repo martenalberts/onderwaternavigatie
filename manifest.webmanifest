@@ -1,7 +1,7 @@
 {
-  "name": "Onderwaternavigatie Afstandsmeting",
+  "name": "Onderwaternavigatie",
   "short_name": "Onderwaternavigatie",
-  "description": "Afstandsmeting voor de PADI onderwaternavigatieoefening.",
+  "description": "Professionele afstandsmeting voor onderwaternavigatie.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
