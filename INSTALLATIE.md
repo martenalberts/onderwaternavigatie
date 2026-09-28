@@ -37,3 +37,8 @@ De bestaande opslag in `localStorage` blijft hetzelfde werken. Er is in deze sta
 ## Codebase refactor 03
 
 Cursistmetingen worden niet meer permanent opgeslagen. Elke nieuwe sessie start met een lege cursist. Alleen de meetafstand wordt als configuratie bewaard.
+
+
+## Codebase refactor 04
+
+De UI JavaScript staat nu in `js/app.js` in plaats van inline in `index.html`. De werking en interface zijn niet inhoudelijk gewijzigd.

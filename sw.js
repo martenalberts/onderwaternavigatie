@@ -1,5 +1,6 @@
-const CACHE_NAME = "onderwaternavigatie-v10-session-only-data";
+const CACHE_NAME = "onderwaternavigatie-v11-external-app-js";
 const APP_SHELL = [
+  'js/app.js',
   "./",
   "./index.html",
   "./js/calculations.js",
