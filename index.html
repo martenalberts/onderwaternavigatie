@@ -531,32 +531,7 @@
     </section>
   </main>
 
-  <div class="result-screen" id="resultScreen" role="dialog" aria-modal="true" aria-labelledby="resultName">
-    <div class="result-card">
-      <h2 class="result-name" id="resultName">Cursist</h2>
-      <p class="result-subtitle">Resultaat onderwaternavigatie</p>
-
-      <div class="result-metrics">
-        <div class="metric">
-          <span class="metric-label">Snelheid</span>
-          <span class="metric-value" id="resultMetersMinute">0,0</span>
-          <span class="metric-label">meter/min</span>
-        </div>
-        <div class="metric">
-          <span class="metric-label">Afstand per vinslag</span>
-          <span class="metric-value" id="resultMetersStroke">0,00</span>
-          <span class="metric-label">meter/vinslag</span>
-        </div>
-      </div>
-
-      <div class="result-details">
-        <div class="detail">Gem. tijd: <strong id="resultAvgTime">0,0 sec</strong></div>
-        <div class="detail">Gem. vinslagen: <strong id="resultAvgStrokes">0,0</strong></div>
-      </div>
-
-      <button class="primary result-close" id="closeResult" type="button">Terug naar invoer</button>
-    </div>
-  </div>
+  <script src="js/calculations.js"></script>
 
   <script>
     const rows = document.getElementById('rows');
@@ -624,19 +599,15 @@
       const s1 = num(tr.querySelector('.stroke1').value);
       const s2 = num(tr.querySelector('.stroke2').value);
 
-      const avgTime = t1 !== null && t2 !== null ? (t1 + t2) / 2 : null;
-      const avgStrokes = s1 !== null && s2 !== null ? (s1 + s2) / 2 : null;
+      const result = calculateNavigation(distance, t1, t2, s1, s2);
 
-      tr.querySelector('.avg-time').textContent = format(avgTime, 1);
-      tr.querySelector('.avg-strokes').textContent = format(avgStrokes, 1);
-
-      const metersMinute = distance !== null && avgTime > 0 ? distance / avgTime * 60 : null;
-      const metersStroke = distance !== null && avgStrokes > 0 ? distance / avgStrokes : null;
+      tr.querySelector('.avg-time').textContent = format(result.averageTime, 1);
+      tr.querySelector('.avg-strokes').textContent = format(result.averageStrokes, 1);
 
       tr.querySelector('.meters-minute').textContent =
-        metersMinute === null ? '' : format(metersMinute, 1);
+        result.metersPerMinute === null ? '' : format(result.metersPerMinute, 1);
       tr.querySelector('.meters-stroke').textContent =
-        metersStroke === null ? '' : format(metersStroke, 2);
+        result.metersPerStroke === null ? '' : format(result.metersPerStroke, 2);
 
       save();
     }
@@ -699,7 +670,7 @@
 
 
   <script>
-    const resultScreen = document.getElementById('resultScreen');
+    window.addEventListener('DOMContentLoaded', () => {
     const resultName = document.getElementById('resultName');
     const resultMetersMinute = document.getElementById('resultMetersMinute');
     const resultMetersStroke = document.getElementById('resultMetersStroke');
@@ -740,6 +711,7 @@
         hideResult();
       }
     });
+    });
   </script>
 
   <script>
@@ -771,6 +743,33 @@
     });
   </script>
 
+
+  <div class="result-screen" id="resultScreen" role="dialog" aria-modal="true" aria-labelledby="resultName">
+    <div class="result-card">
+      <h2 class="result-name" id="resultName">Cursist</h2>
+      <p class="result-subtitle">Resultaat onderwaternavigatie</p>
+
+      <div class="result-metrics">
+        <div class="metric">
+          <span class="metric-label">Snelheid</span>
+          <span class="metric-value" id="resultMetersMinute">0,0</span>
+          <span class="metric-label">meter/min</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Afstand per vinslag</span>
+          <span class="metric-value" id="resultMetersStroke">0,00</span>
+          <span class="metric-label">meter/vinslag</span>
+        </div>
+      </div>
+
+      <div class="result-details">
+        <div class="detail">Gem. tijd: <strong id="resultAvgTime">0,0 sec</strong></div>
+        <div class="detail">Gem. vinslagen: <strong id="resultAvgStrokes">0,0</strong></div>
+      </div>
+
+      <button class="primary result-close" id="closeResult" type="button">Terug naar invoer</button>
+    </div>
+  </div>
 
 </body>
 </html>

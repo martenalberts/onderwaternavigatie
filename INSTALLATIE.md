@@ -22,3 +22,8 @@ De app is responsief gemaakt voor telefoons en tablets. In portrait op een telef
 ## Presentatiemodus
 
 Gebruik per cursist de knop `Resultaat tonen` om de resultaten groot en overzichtelijk aan de cursist te presenteren. De modus toont snelheid in meter/min, afstand per vinslag, gemiddelde tijd en gemiddelde vinslagen. Met `Terug naar invoer` keer je terug naar het invoerscherm.
+
+## Codebase refactor 01
+
+De rekenlogica staat nu los van de gebruikersinterface in `js/calculations.js`.
+Deze stap verandert de werking van de app niet. Het maakt toekomstige wijzigingen en controles van de berekeningen veiliger.
